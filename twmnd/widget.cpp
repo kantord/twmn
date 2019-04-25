@@ -24,7 +24,9 @@
 Widget::Widget(const char* wname) : m_settings(wname)//, m_shortcutGrabber(this, m_settings)
 {
     setWindowFlags(Qt::ToolTip);
-    setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_TranslucentBackground, true);
+    setAttribute(Qt::WA_NoSystemBackground);
+    setWindowFlag(Qt::FramelessWindowHint);
     setWindowOpacity(m_settings.get("gui/opacity").toInt() / 100.0);
     QPropertyAnimation* anim = new QPropertyAnimation(this);
     anim->setTargetObject(this);
@@ -563,7 +565,7 @@ void Widget::setupColors()
     QString fg = m.data["fg"]->toString();
     QString sheet;
     if (!bg.isEmpty())
-        sheet += QString("background-color: %1;").arg(bg);
+        sheet += QString("background-color: %1;").arg("rgba(0,0,0,0)");
     if (!fg.isEmpty())
         sheet += QString("color: %1;").arg(fg);
     setStyleSheet(sheet);
